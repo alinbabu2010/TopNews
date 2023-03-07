@@ -8,8 +8,10 @@ class Dimens {
   static const itemTitleMaxLines = 1;
   static const itemSubTitleMaxLines = 2;
 
-  // ArticleList
+  // NewsListScreen
   static const listTopPadding = 8.0;
+  static const noMoreItemsTopPadding = 8.0;
+  static const noMoreItemsBottomPadding = 16.0;
 
   // ArticleInfo
   static const titleSpacing = 5.0;
