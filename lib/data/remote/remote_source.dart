@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'dart:html';
+import 'dart:io';
 
 import 'package:http/http.dart';
+import 'package:top_news/data/models/articles.dart';
 
 import '../models/error_response.dart';
 import '../models/news_exception.dart';
@@ -11,11 +12,11 @@ class NetworkDataSource {
   static const _authority = "newsapi.org";
   static const _path = "/v2/top-headlines";
 
-  Future<NewsResponse> fetchNews(int page) async {
+  Future<List<Article>> fetchNews(int page, int pageSize) async {
     try {
       final queryParameters = {
         "language": "en",
-        "pageSize": "10",
+        "pageSize": "$pageSize",
         "page": "$page"
       };
       final uri = Uri.https(_authority, _path, queryParameters);
@@ -28,7 +29,7 @@ class NetworkDataSource {
         throw NewsException(errorResponse.message);
       } else {
         final newsResponse = NewsResponse.fromJson(jsonDecode(response.body));
-        return Future.value(newsResponse);
+        return Future.value(newsResponse.articles);
       }
     } catch (error) {
       rethrow;
