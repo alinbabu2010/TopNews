@@ -9,6 +9,7 @@ import 'package:top_news/widgets/progress_bar.dart';
 
 import '../utils/constants.dart';
 import '../utils/dimensions.dart';
+import '../utils/paging_extension.dart';
 
 class NewsListScreen extends StatefulWidget {
   const NewsListScreen({Key? key}) : super(key: key);
@@ -22,8 +23,8 @@ class _NewsListScreenState extends State<NewsListScreen> {
 
   late final NewsProvider newsProvider;
 
-  final PagingController<int, Article> _pagingController =
-      PagingController(firstPageKey: 1);
+  final PagingControllerExtent<int, Article> _pagingController =
+      PagingControllerExtent(firstPageKey: 1);
 
   @override
   void didChangeDependencies() {
@@ -57,7 +58,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () => Future.sync(
-          () => _pagingController.refresh(),
+              () => _pagingController.refresh(background: true),
         ),
         child: PagedListView(
           pagingController: _pagingController,
