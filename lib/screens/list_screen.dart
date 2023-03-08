@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +26,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
   late final NewsProvider newsProvider;
 
   final PagingControllerExtent<int, Article> _pagingController =
-      PagingControllerExtent(firstPageKey: 1);
+  PagingControllerExtent(firstPageKey: 1);
 
   @override
   void didChangeDependencies() {
@@ -67,28 +69,21 @@ class _NewsListScreenState extends State<NewsListScreen> {
             itemBuilder: (context, article, index) =>
                 ArticleItem(article: article),
             firstPageErrorIndicatorBuilder: (_) => EmptyMsgWidget(
-              message: _pagingController.error,
-              isScrollNeeded: true,
+              message: (_pagingController.error as Exception).toString(),
             ),
             newPageErrorIndicatorBuilder: (_) => EmptyMsgWidget(
-              message: _pagingController.error,
-              isScrollNeeded: false,
+              message: (_pagingController.error as Exception).toString(),
             ),
             firstPageProgressIndicatorBuilder: (_) => const ProgressBar(),
             newPageProgressIndicatorBuilder: (_) => const ProgressBar(),
             noItemsFoundIndicatorBuilder: (_) => EmptyMsgWidget(
-              message: _pagingController.error,
-              isScrollNeeded: true,
-            ),
+                message: (_pagingController.error as Exception).toString()),
             noMoreItemsIndicatorBuilder: (_) => const Padding(
               padding: EdgeInsets.only(
                 top: Dimens.noMoreItemsTopPadding,
                 bottom: Dimens.noMoreItemsBottomPadding,
               ),
-              child: EmptyMsgWidget(
-                message: Constants.noMoreData,
-                isScrollNeeded: false,
-              ),
+              child: EmptyMsgWidget(message: Constants.noMoreData),
             ),
           ),
         ),
