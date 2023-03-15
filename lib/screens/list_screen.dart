@@ -11,7 +11,6 @@ import 'package:top_news/widgets/progress_bar.dart';
 
 import '../utils/constants.dart';
 import '../utils/dimensions.dart';
-import '../utils/paging_extension.dart';
 
 class NewsListScreen extends StatefulWidget {
   const NewsListScreen({Key? key}) : super(key: key);
@@ -25,8 +24,8 @@ class _NewsListScreenState extends State<NewsListScreen> {
 
   late final NewsProvider newsProvider;
 
-  final PagingControllerExtent<int, Article> _pagingController =
-      PagingControllerExtent(firstPageKey: 1);
+  final PagingController<int, Article> _pagingController =
+      PagingController(firstPageKey: 1);
 
   @override
   void didChangeDependencies() {
