@@ -26,7 +26,7 @@ class _NewsListScreenState extends State<NewsListScreen> {
   late final NewsProvider newsProvider;
 
   final PagingControllerExtent<int, Article> _pagingController =
-  PagingControllerExtent(firstPageKey: 1);
+      PagingControllerExtent(firstPageKey: 1);
 
   @override
   void didChangeDependencies() {
@@ -59,9 +59,9 @@ class _NewsListScreenState extends State<NewsListScreen> {
         centerTitle: true,
       ),
       body: RefreshIndicator(
-        onRefresh: () => Future.sync(
-              () => _pagingController.refresh(background: true),
-        ),
+        onRefresh: () => Future.sync(() async {
+          await newsProvider.refresh();
+        }),
         child: PagedListView(
           pagingController: _pagingController,
           padding: const EdgeInsets.only(top: Dimens.listTopPadding),
