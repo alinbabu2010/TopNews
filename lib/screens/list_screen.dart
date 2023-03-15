@@ -59,6 +59,8 @@ class _NewsListScreenState extends State<NewsListScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: () => Future.sync(() async {
+          // Used this approach instead _pagingController.refresh() to retain data and
+          // show refreshIndicator until data loads
           await newsProvider.refresh();
         }),
         child: PagedListView(

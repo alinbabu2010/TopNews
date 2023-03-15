@@ -14,6 +14,7 @@ class NewsProvider with ChangeNotifier {
 
   List<Article>? get _fetchedArticles => _newsState.itemList;
 
+  /// To fetch news from API and set state
   Future<void> fetchNews(int page) async {
     try {
       final newItems = await _networkDataSource.fetchNews(page, _pageSize);
@@ -29,6 +30,7 @@ class NewsProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// To refresh news from API by calling [fetchNews] with initial page
   Future<void> refresh() async {
     await fetchNews(1);
   }

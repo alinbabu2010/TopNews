@@ -1,5 +1,9 @@
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+/// Extension class for [PagingController] to prevent content disappearing on refresh()
+/// Use this class instead of [PagingController] if you want to prevent content
+/// disappearing on refresh()
+/// Limitations: RefreshIndicator will disappear before loading refresh data
 class PagingControllerExtent<PageKeyType, ItemType>
     extends PagingController<PageKeyType, ItemType> {
   PagingControllerExtent({
