@@ -28,4 +28,8 @@ class NewsProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  Future<void> refresh() async {
+    await fetchNews(1);
+  }
 }
