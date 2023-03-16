@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:top_news/data/models/articles.dart';
 import 'package:top_news/data/remote/remote_source.dart';
-import 'package:top_news/provider/news_state.dart';
 
 class NewsProvider with ChangeNotifier {
   final _networkDataSource = NetworkDataSource();
 
   final _pageSize = 12;
 
-  NewsState _newsState = NewsState();
+  final PagingController<int, Article> _pagingController =
+      PagingController(firstPageKey: 1);
 
-  NewsState get newsState => _newsState;
+  PagingController<int, Article> get pagingController => _pagingController;
 
-  List<Article>? get _fetchedArticles => _newsState.itemList;
+  List<Article>? get _fetchedArticles => _pagingController.itemList;
 
   /// To fetch news from API and set state
   Future<void> fetchNews(int page) async {
@@ -21,13 +22,13 @@ class NewsProvider with ChangeNotifier {
       final isLastPage = newItems.length < _pageSize;
       final nextPageKey = isLastPage ? null : (page + 1);
       final fetchedArticles = page == 1 ? [] : _fetchedArticles ?? [];
-      _newsState = _newsState.copyWith(
+      _pagingController.value = PagingState(
           itemList: [...fetchedArticles, ...newItems],
           nextPageKey: nextPageKey);
     } catch (error) {
-      _newsState = _newsState.copyWith(error: error);
+      _pagingController.value = PagingState(error: error);
     }
-    notifyListeners();
+    _pagingController.notifyListeners();
   }
 
   /// To refresh news from API by calling [fetchNews] with initial page
