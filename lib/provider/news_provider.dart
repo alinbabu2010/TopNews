@@ -13,20 +13,22 @@ class NewsProvider with ChangeNotifier {
 
   PagingController<int, Article> get pagingController => _pagingController;
 
-  List<Article>? get _fetchedArticles => _pagingController.itemList;
-
   /// To fetch news from API and set state
   Future<void> fetchNews(int page) async {
     try {
       final newItems = await _networkDataSource.fetchNews(page, _pageSize);
       final isLastPage = newItems.length < _pageSize;
       final nextPageKey = isLastPage ? null : (page + 1);
-      final fetchedArticles = page == 1 ? [] : _fetchedArticles ?? [];
-      _pagingController.value = PagingState(
-          itemList: [...fetchedArticles, ...newItems],
-          nextPageKey: nextPageKey);
+      if (page == 1) {
+        _pagingController.value =
+            PagingState(itemList: newItems, nextPageKey: nextPageKey);
+      } else if (!isLastPage) {
+        _pagingController.appendPage(newItems, nextPageKey);
+      } else {
+        _pagingController.appendLastPage(newItems);
+      }
     } catch (error) {
-      _pagingController.value = PagingState(error: error);
+      _pagingController.error = error;
     }
     _pagingController.notifyListeners();
   }
