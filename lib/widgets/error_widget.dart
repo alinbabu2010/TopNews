@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:top_news/utils/dimensions.dart';
 
 class EmptyMsgWidget extends StatelessWidget {
   final String message;
@@ -12,10 +13,15 @@ class EmptyMsgWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Center(
-      child: Text(
-        message,
-        style: textTheme.bodyMedium?.copyWith(color: Colors.deepOrangeAccent),
-        textAlign: TextAlign.center,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Dimens.messageHorizontalPadding,
+        ),
+        child: Text(
+          message,
+          style: textTheme.bodyMedium?.copyWith(color: Colors.deepOrangeAccent),
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

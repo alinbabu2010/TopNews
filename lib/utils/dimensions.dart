@@ -22,4 +22,7 @@ class Dimens {
   static const imageHeightPercentage = 0.6;
   static const contentMarginPercentage = 0.55;
   static const spacingHeight = 12.0;
+
+  // EmptyMsgWidget
+  static const messageHorizontalPadding = 8.0;
 }
